@@ -17,14 +17,9 @@ echo "It takes too long time and an existing method is used. Thus, we download t
 wget https://www.dropbox.com/s/o5hd8lnr5c0l6hj/KGembed.zip
 unzip KGembed.zip
 rm KGembed.zip
-
 mv -f KGembed/* preprocess/
 rm -r KGembed
-
 #python3.6 transE_emb.py --learning_rate 0.003 --batch_size 3000 --eval_freq 50
-
-
-
 
 
 echo "Head Entity Detection (HED) model, train and test the model..."
