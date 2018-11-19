@@ -12,7 +12,7 @@ from evaluation import get_names_for_entities
 from sklearn.metrics.pairwise import euclidean_distances
 
 parser = ArgumentParser(description="Training")
-parser.add_argument('--qa_mode', type=str, required=True, help='options are LSTM, CNN, GRU')
+parser.add_argument('--qa_mode', type=str, required=True, help='options are LSTM, GRU')
 parser.add_argument('--embed_dim', type=int, default=250)
 parser.add_argument('--no_cuda', action='store_false', help='do not use cuda', dest='cuda')
 parser.add_argument('--gpu', type=int, default=0)  # Use -1 for CPU
@@ -32,7 +32,6 @@ parser.add_argument('--rnn_dropout', type=float, default=0.3)
 parser.add_argument('--clip_gradient', type=float, default=0.6, help='gradient clipping')
 parser.add_argument('--vector_cache', type=str, default="data/sq_glove300d.pt")
 parser.add_argument('--weight_decay',type=float, default=0)
-parser.add_argument('--cnn_dropout', type=float, default=0.5, help='dropout before fully connected layer in CNN')
 parser.add_argument('--fix_embed', action='store_false', dest='train_embed')
 parser.add_argument('--output', type=str, default='preprocess')
 args = parser.parse_args()
