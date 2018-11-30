@@ -84,8 +84,10 @@ else:
 
 print("Embedding match number {} out of {}".format(match_embedding, len(TEXT.vocab)))
 
-train_iter = data.Iterator(train, batch_size=args.batch_size, device=torch.device('cuda', args.gpu), train=True, repeat=False, sort=False, shuffle=True, sort_within_batch=False)
-dev_iter = data.Iterator(dev, batch_size=args.batch_size, device=torch.device('cuda', args.gpu), train=False, repeat=False, sort=False, shuffle=False, sort_within_batch=False)
+train_iter = data.Iterator(train, batch_size=args.batch_size, device=torch.device('cuda', args.gpu), train=True,
+                           repeat=False, sort=False, shuffle=True, sort_within_batch=False)
+dev_iter = data.Iterator(dev, batch_size=args.batch_size, device=torch.device('cuda', args.gpu), train=False,
+                         repeat=False, sort=False, shuffle=False, sort_within_batch=False)
 
 config = args
 config.words_num = len(TEXT.vocab)
