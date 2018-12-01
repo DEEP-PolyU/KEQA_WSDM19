@@ -96,8 +96,8 @@ ED.build_vocab(train, dev)
 total_num = len(test)
 print('total num of example: {}'.format(total_num))
 
-test_iter = data.Iterator(test, batch_size=args.batch_size, device=args.gpu, train=False, repeat=False,
-                                   sort=False, shuffle=False, sort_within_batch=False)
+test_iter = data.Iterator(test, batch_size=args.batch_size, device=torch.device('cuda', args.gpu), train=False,
+                          repeat=False, sort=False, shuffle=False, sort_within_batch=False)
 # load the model
 if args.gpu == -1: # Load all tensors onto the CPU
     model = torch.load(args.dete_model, map_location=lambda storage, loc: storage)
@@ -248,8 +248,8 @@ train, dev = data.TabularDataset.splits(path=args.output, train='entity_train.tx
 field = [('id', None), ('sub', None), ('entity', None), ('relation', None), ('obj', None), ('text', TEXT), ('ed', None)]
 test = data.TabularDataset(path=os.path.join(args.output, 'test.txt'), format='tsv', fields=field)
 TEXT.build_vocab(train, dev, test)  # training data includes validation data
-test_iter = data.Iterator(test, batch_size=args.batch_size, device=args.gpu, train=False, repeat=False,
-                                   sort=False, shuffle=False, sort_within_batch=False)
+test_iter = data.Iterator(test, batch_size=args.batch_size, device=torch.device('cuda', args.gpu), train=False,
+                          repeat=False, sort=False, shuffle=False, sort_within_batch=False)
 # load the model
 if args.gpu == -1:  # Load all tensors onto the CPU
     model = torch.load(args.entity_model, map_location=lambda storage, loc: storage)
@@ -274,8 +274,8 @@ train, dev = data.TabularDataset.splits(path=args.output, train='pred_train.txt'
 field = [('id', None), ('sub', None), ('entity', None), ('relation', None), ('obj', None), ('text', TEXT), ('ed', None)]
 test = data.TabularDataset(path=os.path.join(args.output, 'test.txt'), format='tsv', fields=field)
 TEXT.build_vocab(train, dev, test)
-test_iter = data.Iterator(test, batch_size=args.batch_size, device=args.gpu, train=False, repeat=False,
-                                   sort=False, shuffle=False, sort_within_batch=False)
+test_iter = data.Iterator(test, batch_size=args.batch_size, device=torch.device('cuda', args.gpu), train=False,
+                          repeat=False, sort=False, shuffle=False, sort_within_batch=False)
 # load the model
 if args.gpu == -1:  # Load all tensors onto the CPU
     model = torch.load(args.pred_model, map_location=lambda storage, loc: storage)
