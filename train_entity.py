@@ -168,7 +168,7 @@ log_template = ' '.join('{:>6.0f},{:>5.0f},{:>9.0f},{:>5.0f}/{:<5.0f} {:>7.0f}%,
 
 while True:
     if early_stop:
-        print("Early Stopping. Epoch: {}, Best Dev F1: {}".format(epoch, best_model))
+        print("Early Stopping. Epoch: {}, Best Dev Accuracy: {}".format(epoch, best_model))
         break
     epoch += 1
     train_iter.init_epoch()
@@ -198,7 +198,7 @@ while True:
                         n_dev_correct += 1
                 baseidx = baseidx + batch_size
             curr_accu = n_dev_correct / len(mids_list)
-            print('Current Accuracy: {}'.format(curr_accu))
+            print('Dev Accuracy: {}'.format(curr_accu))
             # update model
             if curr_accu > best_model:
                 best_model = curr_accu

@@ -181,7 +181,7 @@ log_template = ' '.join('{:>6.0f},{:>5.0f},{:>9.0f},{:>5.0f}/{:<5.0f} {:>7.0f}%,
 
 while True:
     if early_stop:
-        print("Early Stopping. Epoch: {}, Best accuracy: {}, loss: {},".format(epoch, best_accu, best_loss))
+        print("Early Stopping. Epoch: {}, Best Dev accuracy: {}, loss: {},".format(epoch, best_accu, best_loss))
         break
     epoch += 1
     train_iter.init_epoch()
@@ -211,7 +211,7 @@ while True:
 
             curr_accu = n_dev_correct / total_num
             total_loss = dev_loss/total_num
-            print('total loss: {}, current accuracy: {}'.format(total_loss, curr_accu))
+            print('Dev loss: {}, accuracy: {}'.format(total_loss, curr_accu))
 
             # update model
             if curr_accu > best_accu:  # total_loss < best_model
