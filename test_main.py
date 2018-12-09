@@ -15,7 +15,7 @@ from util import www2fb, processed_text, clean_uri
 np.set_printoptions(threshold=np.nan)
 parser = ArgumentParser(description="Joint Prediction")
 parser.add_argument('--no_cuda', action='store_false', help='do not use cuda', dest='cuda')
-parser.add_argument('--gpu', type=int, default=0) # Use -1 for CPU
+parser.add_argument('--gpu', type=int, default=0)  # Use -1 for CPU
 parser.add_argument('--embed_dim', type=int, default=250)
 parser.add_argument('--batch_size', type=int, default=16)
 parser.add_argument('--seed', type=int, default=3435)

@@ -11,17 +11,17 @@ from embedding import EmbedVector
 from sklearn.metrics.pairwise import euclidean_distances
 
 parser = ArgumentParser(description="Training predicate vector learning")
-parser.add_argument('--qa_mode', type=str, required=True, help='options are LSTM, GRU, CNN')
+parser.add_argument('--qa_mode', type=str, required=True, help='options are GRU, LSTM')
 parser.add_argument('--embed_dim', type=int, default=250)
 parser.add_argument('--no_cuda', action='store_false', help='do not use cuda', dest='cuda')
 parser.add_argument('--gpu', type=int, default=0)  # Use -1 for CPU
 parser.add_argument('--epochs', type=int, default=30)
-parser.add_argument('--batch_size', type=int, default=16)
+parser.add_argument('--batch_size', type=int, default=32)
 parser.add_argument('--lr', type=float, default=0.0003)
 parser.add_argument('--seed', type=int, default=3435)
-parser.add_argument('--dev_every', type=int, default=10000)
+parser.add_argument('--dev_every', type=int, default=8000)
 parser.add_argument('--log_every', type=int, default=2000)
-parser.add_argument('--patience', type=int, default=15)
+parser.add_argument('--patience', type=int, default=12)
 parser.add_argument('--best_prefix', type=str, default='pred')
 parser.add_argument('--output_channel', type=int, default=300)
 parser.add_argument('--num_layer', type=int, default=2)
@@ -31,7 +31,6 @@ parser.add_argument('--rnn_dropout', type=float, default=0.3)
 parser.add_argument('--clip_gradient', type=float, default=0.6, help='gradient clipping')
 parser.add_argument('--vector_cache', type=str, default="data/sq_glove300d.pt")
 parser.add_argument('--weight_decay',type=float, default=0)
-parser.add_argument('--cnn_dropout', type=float, default=0.5, help='dropout before fully connected layer in CNN')
 parser.add_argument('--fix_embed', action='store_false', dest='train_embed')
 parser.add_argument('--output', type=str, default='preprocess')
 args = parser.parse_args()
@@ -162,14 +161,15 @@ print(config)
 print("VOCAB num",len(TEXT.vocab))
 print("Train instance", len(train))
 print("Dev instance", total_num)
-print(model)
+#print(model)
 
 parameter = filter(lambda p: p.requires_grad, model.parameters())
 optimizer = torch.optim.Adam(parameter, lr=args.lr, weight_decay=args.weight_decay)
 criterion = nn.MSELoss()
 
 early_stop = False
-best_model = total_num
+best_accu = 0
+best_loss = total_num
 iterations = 0
 iters_not_improved = 0
 num_dev_in_epoch = (len(train) // args.batch_size // args.dev_every) + 1
@@ -181,7 +181,7 @@ log_template = ' '.join('{:>6.0f},{:>5.0f},{:>9.0f},{:>5.0f}/{:<5.0f} {:>7.0f}%,
 
 while True:
     if early_stop:
-        print("Early Stopping. Epoch: {}, Best accuracy: {}, loss: {},".format(epoch, best_accu, best_model))
+        print("Early Stopping. Epoch: {}, Best accuracy: {}, loss: {},".format(epoch, best_accu, best_loss))
         break
     epoch += 1
     train_iter.init_epoch()
@@ -214,13 +214,14 @@ while True:
             print('total loss: {}, current accuracy: {}'.format(total_loss, curr_accu))
 
             # update model
-            if total_loss < best_model:
-                best_model = total_loss
+            if curr_accu > best_accu:  # total_loss < best_model
                 best_accu = curr_accu
+                best_loss = total_loss
                 iters_not_improved = 0
                 # save model, delete previous 'best_snapshot' files
                 torch.save(model, os.path.join(args.output, args.best_prefix + '_best_model.pt'))
             else:
+                print('iters_not_improved{}'.format(iters_not_improved))
                 iters_not_improved += 1
                 if iters_not_improved > patience:
                     early_stop = True

@@ -26,6 +26,6 @@ echo "Head Entity Detection (HED) model, train and test the model..."
 python3.6 train_detection.py --entity_detection_mode LSTM --fix_embed --gpu 0
 
 echo "Entity representation learning..."
-python3.6 train_entity.py --qa_mode LSTM --fix_embed --gpu 0
-python3.6 train_pred.py --qa_mode LSTM --fix_embed --gpu 0
+python3.6 train_entity.py --qa_mode GRU --fix_embed --gpu 0
+python3.6 train_pred.py --qa_mode GRU --fix_embed --gpu 0
 python3.6 test_main.py --gpu 0
