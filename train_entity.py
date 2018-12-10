@@ -151,7 +151,7 @@ print(config)
 print("VOCAB num", len(TEXT.vocab))
 print("Train instance", len(train))
 print("Dev instance", len(dev))
-#print(model)
+print(model)
 
 parameter = filter(lambda p: p.requires_grad, model.parameters())
 optimizer = torch.optim.Adam(parameter, lr=args.lr, weight_decay=args.weight_decay)

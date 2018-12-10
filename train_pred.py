@@ -19,9 +19,9 @@ parser.add_argument('--epochs', type=int, default=30)
 parser.add_argument('--batch_size', type=int, default=32)
 parser.add_argument('--lr', type=float, default=0.0003)
 parser.add_argument('--seed', type=int, default=3435)
-parser.add_argument('--dev_every', type=int, default=8000)
+parser.add_argument('--dev_every', type=int, default=10000)
 parser.add_argument('--log_every', type=int, default=2000)
-parser.add_argument('--patience', type=int, default=12)
+parser.add_argument('--patience', type=int, default=15)
 parser.add_argument('--best_prefix', type=str, default='pred')
 parser.add_argument('--output_channel', type=int, default=300)
 parser.add_argument('--num_layer', type=int, default=2)
@@ -161,7 +161,7 @@ print(config)
 print("VOCAB num",len(TEXT.vocab))
 print("Train instance", len(train))
 print("Dev instance", total_num)
-#print(model)
+print(model)
 
 parameter = filter(lambda p: p.requires_grad, model.parameters())
 optimizer = torch.optim.Adam(parameter, lr=args.lr, weight_decay=args.weight_decay)
@@ -221,7 +221,6 @@ while True:
                 # save model, delete previous 'best_snapshot' files
                 torch.save(model, os.path.join(args.output, args.best_prefix + '_best_model.pt'))
             else:
-                print('iters_not_improved{}'.format(iters_not_improved))
                 iters_not_improved += 1
                 if iters_not_improved > patience:
                     early_stop = True

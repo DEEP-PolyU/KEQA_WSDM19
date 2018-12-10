@@ -147,7 +147,7 @@ for fname in ["train.txt", "valid.txt"]:
     with open(os.path.join(args.output, fname), 'r') as f:
         for line in f:
             items = line.strip().split("\t")
-            if items[2] != '<UNK>' and items[1] in mid_dic:
+            if items[2] != '<UNK>' and mid_dic.get(items[1]) is not None:
                 if index_names.get(items[2]) is None:
                     index_names[items[2]] = [items[1]]
                 else:
@@ -223,7 +223,8 @@ for i, names in enumerate(head_mid_idx):
         mids = index_names[name]
         match_mid_list.extend(mids)
         for mid in mids:
-            tuplelist.append((mid, name))
+            if mid_dic.get(mid) is not None:
+                tuplelist.append((mid, name))
     tupleset.extend(tuplelist)
     head_mid_idx[i] = list(set(tuplelist))
     if tuplelist:
