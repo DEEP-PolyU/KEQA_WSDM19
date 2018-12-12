@@ -22,6 +22,8 @@ rm -r KGembed
 #python3.6 transE_emb.py --learning_rate 0.003 --batch_size 3000 --eval_freq 50
 
 
+
+echo "We could runn train_detection.py, train_entity.py, train_pred.py simultaneously"
 echo "Head Entity Detection (HED) model, train and test the model..."
 python3.6 train_detection.py --entity_detection_mode LSTM --fix_embed --gpu 0
 
