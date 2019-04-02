@@ -9,7 +9,6 @@ from argparse import ArgumentParser
 from evaluation import evaluation
 from entity_detection import EntityDetection
 
-np.set_printoptions(threshold=np.nan)
 parser = ArgumentParser(description="Joint Prediction")
 parser.add_argument('--entity_detection_mode', type=str, required=True, help='options are GRU, LSTM')
 parser.add_argument('--no_cuda', action='store_false', help='do not use cuda', dest='cuda')

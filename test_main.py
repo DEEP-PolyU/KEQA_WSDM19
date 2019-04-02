@@ -12,7 +12,6 @@ from sklearn.metrics.pairwise import euclidean_distances
 from fuzzywuzzy import fuzz
 from util import www2fb, processed_text, clean_uri
 
-np.set_printoptions(threshold=np.nan)
 parser = ArgumentParser(description="Joint Prediction")
 parser.add_argument('--no_cuda', action='store_false', help='do not use cuda', dest='cuda')
 parser.add_argument('--gpu', type=int, default=0)  # Use -1 for CPU
