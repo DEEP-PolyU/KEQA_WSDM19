@@ -24,13 +24,14 @@ class EmbedVector(nn.Module):
                                 bidirectional=True)
         self.dropout = nn.Dropout(p=config.rnn_fc_dropout)
         self.nonlinear = nn.Tanh()
-        self.attn = nn.Sequential(
-            nn.Linear(config.hidden_size * 2 + config.words_dim, config.hidden_size),
-            self.nonlinear,
-            nn.Linear(config.hidden_size, 1)
-        )
+        #self.attn = nn.Sequential(
+        #    nn.Linear(config.hidden_size * 2 + config.words_dim, config.hidden_size),
+        #    self.nonlinear,
+        #    nn.Linear(config.hidden_size, 1)
+        #)
         self.hidden2tag = nn.Sequential(
-            nn.Linear(config.hidden_size * 2 + config.words_dim, config.hidden_size * 2),
+            #nn.Linear(config.hidden_size * 2 + config.words_dim, config.hidden_size * 2),
+            nn.Linear(config.hidden_size * 2, config.hidden_size * 2),
             nn.BatchNorm1d(config.hidden_size * 2),
             self.nonlinear,
             self.dropout,
@@ -52,10 +53,10 @@ class EmbedVector(nn.Module):
             print("Wrong Entity Prediction Mode")
             exit(1)
         outputs = outputs.view(-1, outputs.size(2))
-        x = x.view(-1, words_dim)
-        attn_weights = F.softmax(self.attn(torch.cat((x, outputs), 1)), dim=1)
-        attn_applied = torch.bmm(torch.diag(attn_weights[:, 0]).unsqueeze(0), outputs.unsqueeze(0))
-        outputs = torch.cat((x, attn_applied.squeeze(0)), 1)
+        #x = x.view(-1, words_dim)
+        #attn_weights = F.softmax(self.attn(torch.cat((x, outputs), 1)), dim=0)
+        #attn_applied = torch.bmm(torch.diag(attn_weights[:, 0]).unsqueeze(0), outputs.unsqueeze(0))
+        #outputs = torch.cat((x, attn_applied.squeeze(0)), 1)
         tags = self.hidden2tag(outputs).view(num_word, batch_size, -1)
         scores = nn.functional.normalize(torch.mean(tags, dim=0), dim=1)
 
