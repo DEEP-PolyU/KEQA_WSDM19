@@ -3,7 +3,8 @@ import torch.nn as nn
 import time
 import os
 import numpy as np
-from torchtext import data
+# from torchtext import data
+from torchtext.legacy import data
 import random
 from argparse import ArgumentParser
 from evaluation import evaluation
@@ -34,8 +35,8 @@ parser.add_argument('--fix_embed', action='store_false', dest='train_embed')
 parser.add_argument('--output', type=str, default='preprocess/')
 args = parser.parse_args()
 
-outfile = open(os.path.join(args.output, 'dete_train.txt'), 'w')
-for line in open(os.path.join(args.output, 'train.txt'), 'r'):
+outfile = open(os.path.join(args.output, 'dete_train.txt'), 'w',encoding='UTF-8',errors='ignore')
+for line in open(os.path.join(args.output, 'train.txt'), 'r',encoding='UTF-8',errors='ignore'):
     items = line.strip().split("\t")
     tokens = items[6].split()
     if any(token != tokens[0] for token in tokens):
