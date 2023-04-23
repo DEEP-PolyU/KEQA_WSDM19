@@ -87,7 +87,7 @@ def get_all_entity_mids(fbpath, entiset):
     trainfile.close()
     validfile.close()
     testfile.close()
-    with open(os.path.join(args.output, 'entity2id.txt'), 'w') as outfile:
+    with open(os.path.join(args.output, 'entity2id.txt'), 'w',encoding='UTF-8',errors='ignore') as outfile:
         for i, entity in enumerate(set(mids)):
             outfile.write("{}\t{}\n".format(entity, i))
             #if mids_dic.get(entity) is None:
@@ -100,7 +100,7 @@ def get_all_entity_mids(fbpath, entiset):
             #    outfile.write("{}\t{}\t{}\n".format(entity, i, ' '.join([token for token in tokens if not (token in seen or seen.add(token))])))
     print('Number of entities in transE_*: {}'.format(i + 1))
     outfile.close()
-    with open(os.path.join(args.output, 'relation2id.txt'), 'w') as outfile:
+    with open(os.path.join(args.output, 'relation2id.txt'), 'w',encoding='UTF-8',errors='ignore') as outfile:
         for i, predicate in enumerate(set(relat)):
             outfile.write("{}\t{}\n".format(predicate, i))
     print('Number of predicates in transE_*: {}'.format(i + 1))
@@ -124,15 +124,15 @@ if __name__ == '__main__':
 
     print('select head entities based on questions:')
     entiset = set()  # selected head entities
-    with open(os.path.join(args.dataset, "annotated_fb_data_train.txt"), 'r') as f:
+    with open(os.path.join(args.dataset, "annotated_fb_data_train.txt"), 'r',encoding='UTF-8',errors='ignore') as f:
         for i, line in enumerate(f):
             items = line.strip().split("\t")
             if len(items) != 4:
                 print("ERROR: line - {}".format(line))
                 break
             entiset.add(www2fb(items[0]))  # entiset.add(www2fb(items[2]))
-    outfile = open(os.path.join(args.output, 'names.trimmed.txt'), 'w')  # output file path for trimmed names file
-    with open(args.names, 'r') as f:
+    outfile = open(os.path.join(args.output, 'names.trimmed.txt'), 'w',encoding='UTF-8',errors='ignore')  # output file path for trimmed names file
+    with open(args.names, 'r',encoding='UTF-8',errors='ignore') as f:
         for i, line in enumerate(f):
             if i % 1000000 == 0:
                 print("line: {}".format(i))
