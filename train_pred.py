@@ -211,7 +211,7 @@ while True:
             for dev_batch_idx, dev_batch in enumerate(dev_iter):
                 batch_size = dev_batch.text.size()[1]
                 answer = model(dev_batch)
-                learned_pred = euclidean_distances(answer.cpu().data.numpy(), predicates_emb).argmin(axis=1)
+                learned_pred = euclidean_distances(answer.cpu().data.numpy(), predicates_emb.cpu()).argmin(axis=1)
                 n_dev_correct += sum(dev_batch.mid.cpu().data.numpy() == learned_pred)
                 dev_loss += criterion(answer, predicates_emb[dev_batch.mid, :]).item() * batch_size
 
